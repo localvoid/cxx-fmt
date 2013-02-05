@@ -13,6 +13,7 @@ text. If you need to include a open brace character in the literal
 text, it can be escaped by doubling: {{.
 
 ::
+
   fmt::format("Hello curly brace {{ and {}", "world");
 
 
@@ -20,6 +21,7 @@ Argument specification
 ++++++++++++++++++++++
 
 ::
+
   argument_index? (':' flags* options*)?
 
 Flags
@@ -70,6 +72,7 @@ Example
 -------
 
 ::
+
   fmt::format("format integer: {:X>w6}", 0xff);
 
 should output: "format integer:   0xFF"
