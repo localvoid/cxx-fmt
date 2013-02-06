@@ -27,7 +27,6 @@ struct Arg {
 #endif
     uint64_t  u64;
     int64_t   i64;
-    float     f;
     double    d;
     StringRef s;
     void     *p;
@@ -41,7 +40,6 @@ struct Arg {
 #endif
     U64,
     I64,
-    F,
     D,
     P
   } type;
@@ -93,7 +91,7 @@ Arg to_arg(int64_t o) {
   return { .value = { .i64 = o }, .type = Arg::Type::I64 };
 }
 Arg to_arg(float o) {
-  return { .value = { .f = o }, .type = Arg::Type::F };
+  return { .value = { .d = o }, .type = Arg::Type::D };
 }
 Arg to_arg(double o) {
   return { .value = { .d = o }, .type = Arg::Type::D };
@@ -212,10 +210,6 @@ public:
         size = itoa_hex(a->value.u64, d.arg_options.width, d.arg_options.flags, tmp_buf);
       else
         size = itoa(a->value.u64, d.arg_options.width, d.arg_options.flags, tmp_buf);
-      std::cout << std::string(tmp_buf, size);
-      break;
-    case Arg::Type::F:
-      size = dtoa(a->value.f, d.arg_options.width, d.arg_options.precision, d.arg_options.flags, tmp_buf);
       std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::D:

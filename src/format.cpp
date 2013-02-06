@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
   if (argc < 2) {
     std::cout << "Usage: format [FORMAT_STRING] [ARGS...]" << std::endl;
     std::cout << "Args syntax: TYPE:VALUE" << std::endl;
-    std::cout << "Available types: u32, i32, u64, i64, str, f32, f64, ptr" << std::endl;
+    std::cout << "Available types: u32, i32, u64, i64, str, f64, ptr" << std::endl;
     return 0;
   }
 
@@ -51,9 +51,6 @@ int main(int argc, char *argv[]) {
         a->type = Arg::Type::S;
         a->value.s.begin = c+4;
         a->value.s.size = c_len-4;
-      } else if (!strncmp(c, "f32:", 4)) {
-        a->type = Arg::Type::F;
-        a->value.f = strtof(c+4, nullptr);
       } else if (!strncmp(c, "f64:", 4)) {
         a->type = Arg::Type::D;
         a->value.d = strtod(c+4, nullptr);
@@ -93,9 +90,6 @@ int main(int argc, char *argv[]) {
       break;
     case Arg::Type::I64:
       std::cout << a->value.i64;
-      break;
-    case Arg::Type::F:
-      std::cout << a->value.f;
       break;
     case Arg::Type::D:
       std::cout << a->value.d;
