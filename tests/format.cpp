@@ -94,7 +94,6 @@ protected:
 class FormatMock : public fmt::FormatBase<FormatMock> {
 public:
   struct Data : public FormatBase::Data {
-    const char *mark;
     Arg options;
   };
 
@@ -122,21 +121,6 @@ public:
       auto e = expects_[expects_i_++];
       e.check(i);
     }
-  }
-
-  void mark(Data &d, const char *fpc) {
-    d.mark = fpc;
-  }
-
-  int capture_integer(Data &d, const char *fpc) {
-    int i = 0;
-    const char *xp = d.mark;
-
-    while (xp != fpc) {
-      i = i * 10 + (*xp - '0');
-      xp++;
-    }
-    return i;
   }
 
   void capture_precision(Data &d, const char *fpc) {

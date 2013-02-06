@@ -99,25 +99,9 @@ public:
 class Format : public FormatBase<Format> {
 public:
   struct Data : public FormatBase::Data {
-    const char *mark = 0;
     ArgOptions arg_options;
     int32_t arg_index = 0;
   };
-
-  void mark(Data &d, const char *fpc) {
-    d.mark = fpc;
-  }
-
-  int capture_integer(Data &d, const char *fpc) {
-    int i = 0;
-    const char *xp = d.mark;
-
-    while (xp != fpc) {
-      i = i * 10 + (*xp - '0');
-      xp++;
-    }
-    return i;
-  }
 
   void capture_precision(Data &d, const char *fpc) {
     d.arg_options.precision = capture_integer(d, fpc);

@@ -50,24 +50,9 @@ std::ostream& operator<<(std::ostream& os, const Flag& f) {
 
 class FormatDebugger : public FormatBase<FormatDebugger> {
 public:
-  struct Data : public FormatBase::Data {
-    const char *mark = 0;
-  };
-
   void mark(Data &d, const char *fpc) {
     std::cout << "Mark\n";
-    d.mark = fpc;
-  }
-
-  int capture_integer(Data &d, const char *fpc) {
-    int i = 0;
-    const char *xp = d.mark;
-
-    while (xp != fpc) {
-      i = i * 10 + (*xp - '0');
-      xp++;
-    }
-    return i;
+    FormatBase::mark(d, fpc);
   }
 
   void capture_precision(Data &d, const char *fpc) {

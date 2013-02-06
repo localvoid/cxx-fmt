@@ -126,7 +126,24 @@ public:
     const char *p;
     const char *pe;
     const char *eof;
+    const char *mark;
   };
+
+  void mark(Data &d, const char *fpc) {
+    d.mark = fpc;
+  }
+
+  int capture_integer(Data &d, const char *fpc) {
+    int i = 0;
+    const char *p = d.mark;
+
+    while (p != fpc) {
+      i = i * 10 + (*p - '0');
+      p++;
+    }
+    return i;
+  }
+
 
   template<typename ...Args>
   void operator()(const char *fmt, size_t fmt_size, Args&& ... args) {
@@ -135,6 +152,7 @@ public:
     data.p = fmt;
     data.pe = fmt + fmt_size;
     data.eof = data.pe;
+    data.mark = nullptr;
 
     %% variable cs  data.cs;
     %% variable p   data.p;
