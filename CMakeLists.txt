@@ -22,6 +22,7 @@ include_directories(include ${GTEST_INCLUDE_DIRS})
 add_executable(fmt-debugger src/debugger.cpp)
 add_executable(fmt src/format.cpp)
 add_executable(itoa src/itoa.cpp tests/itoa.cpp)
+add_executable(benchmark-itoa src/itoa.cpp benchmarks/itoa.cpp)
 
 
 enable_testing()
