@@ -15,7 +15,8 @@
   action EndError         { static_cast<T&>(*this).end_error(data); }
 
   align = (
-      '>' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignRight); }
+      '<' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignLeft); }
+    | '>' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignRight); }
     | '^' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignCentered); }
   );
 
@@ -87,20 +88,21 @@
 namespace fmt {
 
 enum Flag : uint32_t {
-  AlignRight     = 1,
-  AlignCentered  = 1 << 1,
-  SignPlus       = 1 << 2,
-  SignSpace      = 1 << 3,
-  Char           = 1 << 4,
-  Hex            = 1 << 5,
-  UpperHex       = 1 << 6,
-  Exponent       = 1 << 7,
-  UpperExponent  = 1 << 8,
-  Fixed          = 1 << 9,
-  LargeExponent  = 1 << 10,
-  Percentage     = 1 << 11,
-  Prefixed       = 1 << 12,
-  CommaSeparator = 1 << 13,
+  AlignLeft      = 1,
+  AlignRight     = 1 << 1,
+  AlignCentered  = 1 << 2,
+  SignPlus       = 1 << 3,
+  SignSpace      = 1 << 4,
+  Char           = 1 << 5,
+  Hex            = 1 << 6,
+  UpperHex       = 1 << 7,
+  Exponent       = 1 << 8,
+  UpperExponent  = 1 << 9,
+  Fixed          = 1 << 10,
+  LargeExponent  = 1 << 11,
+  Percentage     = 1 << 12,
+  Prefixed       = 1 << 13,
+  CommaSeparator = 1 << 14
 };
 
 

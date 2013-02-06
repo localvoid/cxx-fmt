@@ -7,7 +7,9 @@
 namespace fmt {
 
 std::ostream& operator<<(std::ostream& os, const Flag& f) {
-  if (f & Flag::AlignRight)
+  if (f & Flag::AlignLeft)
+    os << "align left";
+  else if (f & Flag::AlignRight)
     os << "align right";
   else if (f & Flag::AlignCentered)
     os << "align centered";
