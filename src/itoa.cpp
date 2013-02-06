@@ -79,11 +79,11 @@ inline uint32_t digits10(uint32_t n) {
 }
 
 inline uint32_t digits16(uint64_t n) {
-  return t = ((bsrq(n | 1) + 1) / 4) + 1;
+  return ((bsrq(n | 1) + 1) / 4) + 1;
 }
 
 inline uint32_t digits16(uint32_t n) {
-  return t = ((bsrl(n | 1) + 1) / 4) + 1;
+  return ((bsrl(n | 1) + 1) / 4) + 1;
 }
 
 }
