@@ -143,10 +143,16 @@ public:
     uint32_t index;
 
     if (arg_options_.index == 0) {
+      if (arg_index_ == -1) {
+        throw InvalidFormatString("Invalid indexing behaviour");
+      }
       index = arg_index_++;
     } else {
-      if (arg_index_ != 0) {
+      if (arg_index_ > 0) {
         throw InvalidFormatString("Invalid indexing behaviour");
+      }
+      if (arg_index_ == 0) {
+        arg_index_ = -1;
       }
       index = arg_options_.index - 1;
     }
@@ -197,7 +203,7 @@ public:
 private:
   const char *mark_;
   ArgOptions arg_options_;
-  uint32_t arg_index_ = 0;
+  int32_t arg_index_ = 0;
 };
 
 };
