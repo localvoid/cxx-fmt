@@ -9,6 +9,7 @@
 
 
 #include <cstdint>
+#include <utility>
 
 namespace fmt {
 
@@ -32,7 +33,7 @@ enum Flag : uint32_t {
 
 
 
-#line 36 "format-base.hpp"
+#line 37 "format-base.hpp"
 static const int format_start = 8;
 static const int format_first_final = 8;
 static const int format_error = 0;
@@ -40,7 +41,7 @@ static const int format_error = 0;
 static const int format_en_main = 8;
 
 
-#line 110 "format-base.hpp.rl"
+#line 111 "format-base.hpp.rl"
 
 
 template<typename T>
@@ -80,17 +81,17 @@ public:
     data.mark = nullptr;
 
     
-#line 149 "format-base.hpp.rl"
-    
 #line 150 "format-base.hpp.rl"
     
 #line 151 "format-base.hpp.rl"
     
 #line 152 "format-base.hpp.rl"
+    
+#line 153 "format-base.hpp.rl"
 
     for(;;) {
       
-#line 94 "format-base.hpp"
+#line 95 "format-base.hpp"
 	{
 	if ( (   data.p) == (  data.pe) )
 		goto _test_eof;
@@ -126,7 +127,7 @@ st8:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof8;
 case 8:
-#line 130 "format-base.hpp"
+#line 131 "format-base.hpp"
 	if ( (*(   data.p)) == 123 )
 		goto st1;
 	goto tr36;
@@ -138,7 +139,7 @@ st9:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof9;
 case 9:
-#line 142 "format-base.hpp"
+#line 143 "format-base.hpp"
 	if ( (*(   data.p)) == 123 )
 		goto tr39;
 	goto st9;
@@ -150,7 +151,7 @@ st1:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof1;
 case 1:
-#line 154 "format-base.hpp"
+#line 155 "format-base.hpp"
 	switch( (*(   data.p)) ) {
 		case 58: goto st3;
 		case 123: goto tr3;
@@ -163,7 +164,7 @@ tr5:
 #line 14 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).argument_error(data); }
 	goto st0;
-#line 167 "format-base.hpp"
+#line 168 "format-base.hpp"
 st0:
 (  data.cs) = 0;
 	goto _out;
@@ -175,7 +176,7 @@ st2:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof2;
 case 2:
-#line 179 "format-base.hpp"
+#line 180 "format-base.hpp"
 	switch( (*(   data.p)) ) {
 		case 58: goto tr7;
 		case 125: goto tr8;
@@ -251,7 +252,7 @@ st3:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof3;
 case 3:
-#line 255 "format-base.hpp"
+#line 256 "format-base.hpp"
 	switch( (*(   data.p)) ) {
 		case 32: goto tr9;
 		case 35: goto tr10;
@@ -285,7 +286,7 @@ st4:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof4;
 case 4:
-#line 289 "format-base.hpp"
+#line 290 "format-base.hpp"
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
 		goto tr26;
 	goto tr5;
@@ -297,7 +298,7 @@ st5:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof5;
 case 5:
-#line 301 "format-base.hpp"
+#line 302 "format-base.hpp"
 	switch( (*(   data.p)) ) {
 		case 46: goto tr27;
 		case 119: goto tr29;
@@ -318,7 +319,7 @@ st6:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof6;
 case 6:
-#line 322 "format-base.hpp"
+#line 323 "format-base.hpp"
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
 		goto tr31;
 	goto tr5;
@@ -330,7 +331,7 @@ st7:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof7;
 case 7:
-#line 334 "format-base.hpp"
+#line 335 "format-base.hpp"
 	switch( (*(   data.p)) ) {
 		case 46: goto tr32;
 		case 119: goto tr34;
@@ -367,18 +368,18 @@ case 7:
 #line 14 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).argument_error(data); }
 	break;
-#line 371 "format-base.hpp"
+#line 372 "format-base.hpp"
 	}
 	}
 
 	_out: {}
 	}
 
-#line 155 "format-base.hpp.rl"
+#line 156 "format-base.hpp.rl"
       if (data.p == data.eof || data.cs == 
-#line 380 "format-base.hpp"
+#line 381 "format-base.hpp"
 0
-#line 155 "format-base.hpp.rl"
+#line 156 "format-base.hpp.rl"
 )
         break;
     }

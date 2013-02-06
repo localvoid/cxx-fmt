@@ -84,6 +84,7 @@
 
 
 #include <cstdint>
+#include <utility>
 
 namespace fmt {
 
