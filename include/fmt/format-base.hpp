@@ -111,13 +111,13 @@ tr7:
 #line 10 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).emit_argument(data, std::forward<Args>(args)...); }
 	goto st8;
-tr28:
+tr27:
 #line 13 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_precision(data, (   data.p)); }
 #line 10 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).emit_argument(data, std::forward<Args>(args)...); }
 	goto st8;
-tr32:
+tr31:
 #line 12 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_width(data, (   data.p)); }
 #line 10 "format-base.hpp.rl"
@@ -130,8 +130,8 @@ case 8:
 #line 131 "format-base.hpp"
 	if ( (*(   data.p)) == 123 )
 		goto st1;
-	goto tr33;
-tr33:
+	goto tr32;
+tr32:
 #line 7 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).mark(data, (   data.p)); }
 	goto st9;
@@ -141,9 +141,9 @@ st9:
 case 9:
 #line 143 "format-base.hpp"
 	if ( (*(   data.p)) == 123 )
-		goto tr36;
+		goto tr35;
 	goto st9;
-tr36:
+tr35:
 #line 8 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).emit_text(data, (   data.p)); }
 	goto st1;
@@ -274,7 +274,7 @@ case 3:
 		case 125: goto tr4;
 	}
 	goto tr0;
-tr30:
+tr29:
 #line 12 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_width(data, (   data.p)); }
 	goto st4;
@@ -285,7 +285,7 @@ case 4:
 #line 286 "format-base.hpp"
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
 		goto tr25;
-	goto st0;
+	goto tr0;
 tr25:
 #line 7 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).mark(data, (   data.p)); }
@@ -296,7 +296,7 @@ st5:
 case 5:
 #line 298 "format-base.hpp"
 	if ( (*(   data.p)) == 125 )
-		goto tr28;
+		goto tr27;
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
 		goto st5;
 	goto tr0;
@@ -305,9 +305,9 @@ st6:
 		goto _test_eof6;
 case 6:
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
-		goto tr29;
-	goto st0;
-tr29:
+		goto tr28;
+	goto tr0;
+tr28:
 #line 7 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).mark(data, (   data.p)); }
 	goto st7;
@@ -317,8 +317,8 @@ st7:
 case 7:
 #line 319 "format-base.hpp"
 	switch( (*(   data.p)) ) {
-		case 46: goto tr30;
-		case 125: goto tr32;
+		case 46: goto tr29;
+		case 125: goto tr31;
 	}
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
 		goto st7;
@@ -345,12 +345,14 @@ case 7:
 	case 1: 
 	case 2: 
 	case 3: 
+	case 4: 
 	case 5: 
+	case 6: 
 	case 7: 
 #line 14 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).argument_error(data); }
 	break;
-#line 354 "format-base.hpp"
+#line 356 "format-base.hpp"
 	}
 	}
 
@@ -359,7 +361,7 @@ case 7:
 
 #line 152 "format-base.hpp.rl"
       if (data.p == data.eof || data.cs == 
-#line 363 "format-base.hpp"
+#line 365 "format-base.hpp"
 0
 #line 152 "format-base.hpp.rl"
 )
