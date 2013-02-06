@@ -20,6 +20,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-Wl,--as-needed -Wl,--hash-style=gnu")
 include_directories(include ${GTEST_INCLUDE_DIRS})
 
 add_executable(fmt-debugger src/debugger.cpp)
+add_executable(fmt src/format.cpp)
 
 enable_testing()
 add_subdirectory(tests)
