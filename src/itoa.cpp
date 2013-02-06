@@ -296,6 +296,9 @@ uint32_t fmt::itoa_hex(uint32_t v, uint32_t width, uint32_t flags, char *b) {
   char *c;
   uint32_t size = digits16(v);
 
+  if (flags & Flag::Prefixed)
+    size += 2;
+
   if (width > size) {
     if (flags & Flag::AlignLeft) {
       c = &b[size - 1];
@@ -320,6 +323,11 @@ uint32_t fmt::itoa_hex(uint32_t v, uint32_t width, uint32_t flags, char *b) {
   }
 
   if (flags & Flag::ZeroPadding) c = b;
+
+  if (flags & Flag::Prefixed) {
+    c[0] = '0';
+    c[1] = 'x';
+  }
 
   return size;
 }
@@ -328,6 +336,9 @@ uint32_t fmt::itoa_hex(uint64_t v, uint32_t width, uint32_t flags, char *b) {
   char *c;
   uint32_t size = digits16(v);
 
+  if (flags & Flag::Prefixed)
+    size += 2;
+
   if (width > size) {
     if (flags & Flag::AlignLeft) {
       c = &b[size - 1];
@@ -352,6 +363,11 @@ uint32_t fmt::itoa_hex(uint64_t v, uint32_t width, uint32_t flags, char *b) {
   }
 
   if (flags & Flag::ZeroPadding) c = b;
+
+  if (flags & Flag::Prefixed) {
+    c[0] = '0';
+    c[1] = 'x';
+  }
 
   return size;
 }
