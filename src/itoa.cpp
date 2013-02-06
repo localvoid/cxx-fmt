@@ -68,7 +68,7 @@ inline unsigned int bsrl(unsigned int mask) {
   return result;
 }
 
-uint32_t digits10(uint64_t n) {
+inline uint32_t digits10(uint64_t n) {
   uint32_t t = (bsrq(n | 1) + 1) * 1233 >> 12;
   return t - (n < powers_of_10_u64[t]) + 1;
 }
