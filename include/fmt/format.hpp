@@ -159,19 +159,31 @@ public:
       std::cout << std::string(a->value.s.begin, a->value.s.size);
       break;
     case Arg::Type::U32:
-      size = itoa(a->value.u32, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      if (d.arg_options.flags & (Flag::Hex | Flag::UpperHex))
+        size = itoa_hex(a->value.u32, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      else
+        size = itoa(a->value.u32, d.arg_options.width, d.arg_options.flags, tmp_buf);
       std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::I32:
-      size = itoa(a->value.i32, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      if (d.arg_options.flags & (Flag::Hex | Flag::UpperHex))
+        size = itoa_hex(a->value.u32, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      else
+        size = itoa(a->value.i32, d.arg_options.width, d.arg_options.flags, tmp_buf);
       std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::U64:
-      size = itoa(a->value.i64, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      if (d.arg_options.flags & (Flag::Hex | Flag::UpperHex))
+        size = itoa_hex(a->value.u64, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      else
+        size = itoa(a->value.i64, d.arg_options.width, d.arg_options.flags, tmp_buf);
       std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::I64:
-      size = itoa(a->value.u64, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      if (d.arg_options.flags & (Flag::Hex | Flag::UpperHex))
+        size = itoa_hex(a->value.u64, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      else
+        size = itoa(a->value.u64, d.arg_options.width, d.arg_options.flags, tmp_buf);
       std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::F:
