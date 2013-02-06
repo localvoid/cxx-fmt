@@ -311,10 +311,12 @@ uint32_t fmt::itoa_hex(uint32_t v, uint32_t width, uint32_t flags, char *b) {
     c = &b[size-1];
   }
 
+  const char *digits = (flags & Flag::UpperHex) ? hex_upper_digits : hex_lower_digits;
+
   while (v >= 16) {
     auto const r = v % 16;
     v /= 16;
-    *c-- = hex_lower_digits[r];
+    *c-- = digits[r];
   }
 
   if (flags & Flag::ZeroPadding) c = b;
@@ -341,10 +343,12 @@ uint32_t fmt::itoa_hex(uint64_t v, uint32_t width, uint32_t flags, char *b) {
     c = &b[size-1];
   }
 
+  const char *digits = (flags & Flag::UpperHex) ? hex_upper_digits : hex_lower_digits;
+
   while (v >= 16) {
     auto const r = v % 16;
     v /= 16;
-    *c-- = hex_lower_digits[r];
+    *c-- = digits[r];
   }
 
   if (flags & Flag::ZeroPadding) c = b;
