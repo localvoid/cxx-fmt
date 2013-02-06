@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <string>
 #include <fmt/format-base.hpp>
+#include <fmt/itoa.hpp>
 
 namespace fmt {
 
@@ -149,16 +150,21 @@ public:
       throw InvalidFormatString("Argument index is out of range");
     }
 
+    char tmp_buf[32];
+    uint32_t size;
+
     const Arg *a = &args[index];
     switch (a->type) {
     case Arg::Type::S:
       std::cout << std::string(a->value.s.begin, a->value.s.size);
       break;
     case Arg::Type::U32:
-      std::cout << a->value.u32;
+      size = itoa(a->value.u32, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::I32:
-      std::cout << a->value.i32;
+      size = itoa(a->value.i32, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::U64:
       std::cout << a->value.u64;
@@ -167,10 +173,12 @@ public:
       std::cout << a->value.i64;
       break;
     case Arg::Type::F:
-      std::cout << a->value.f;
+      size = dtoa(a->value.f, d.arg_options.width, d.arg_options.precision, d.arg_options.flags, tmp_buf);
+      std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::D:
-      std::cout << a->value.d;
+      size = dtoa(a->value.d, d.arg_options.width, d.arg_options.precision, d.arg_options.flags, tmp_buf);
+      std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::P:
       std::cout << a->value.p;
