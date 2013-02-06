@@ -1,0 +1,12 @@
+#ifndef _FMT_ITOA_HPP_
+#define _FMT_ITOA_HPP_
+
+#include <fmt/format-base.hpp>
+
+namespace fmt {
+
+uint32_t itoa(int32_t n, uint32_t width, uint32_t flags, char *b);
+
+}
+
+#endif
