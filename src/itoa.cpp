@@ -98,3 +98,50 @@ uint32_t fmt::itoa(int32_t n, uint32_t width, uint32_t flags, char *b) {
 
   return size;
 }
+
+uint32_t fmt::itoa(uint32_t v, uint32_t width, uint32_t flags, char *b) {
+  char *c;
+  uint32_t size = digits10(v);
+
+  if (flags & (Flag::SignPlus | Flag::SignSpace)) {
+    size += 1;
+  }
+
+  if (width > size) {
+    if (flags & Flag::AlignLeft) {
+      c = &b[size - 1];
+      std::fill(b + size, b + width, ' ');
+    } else {
+      c = &b[width-1];
+
+      const char f = (flags & Flag::ZeroPadding) ? '0' : ' ';
+      std::fill(b, b + width - size + 1, f);
+    }
+    size = width;
+
+
+  } else {
+    c = &b[size-1];
+  }
+
+
+  while (v >= 100) {
+    auto const r = v % 100;
+    v /= 100;
+    memcpy(c-1, digit_pairs+2*r, 2);
+    c -= 2;
+  }
+  if (v < 10) {
+    *c-- = '0' + v;
+  } else {
+    memcpy(c-1, digit_pairs+2*v, 2);
+    c -= 2;
+  }
+
+  if (flags & Flag::ZeroPadding) c = b;
+
+  if (flags & Flag::SignPlus)       *c = '+';
+  else if (flags & Flag::SignSpace) *c = ' ';
+
+  return size;
+}
