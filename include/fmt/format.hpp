@@ -167,10 +167,12 @@ public:
       std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::U64:
-      std::cout << a->value.u64;
+      size = itoa(a->value.i64, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::I64:
-      std::cout << a->value.i64;
+      size = itoa(a->value.u64, d.arg_options.width, d.arg_options.flags, tmp_buf);
+      std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::F:
       size = dtoa(a->value.f, d.arg_options.width, d.arg_options.precision, d.arg_options.flags, tmp_buf);

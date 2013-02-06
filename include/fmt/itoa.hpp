@@ -5,6 +5,8 @@
 
 namespace fmt {
 
+uint32_t itoa(int64_t n, uint32_t width, uint32_t flags, char *b);
+uint32_t itoa(uint64_t n, uint32_t width, uint32_t flags, char *b);
 uint32_t itoa(int32_t n, uint32_t width, uint32_t flags, char *b);
 uint32_t itoa(uint32_t n, uint32_t width, uint32_t flags, char *b);
 
