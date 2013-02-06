@@ -58,10 +58,11 @@ public:
         pe(fmt + fmt_size),
         eof(pe) {}
 
-  void operator()() {
+  template<typename ...Args>
+  void operator()(Args&& ... args) {
     for(;;) {
       
-#line 65 "format-base.hpp"
+#line 66 "format-base.hpp"
 	{
 	if ( p == pe )
 		goto _test_eof;
@@ -75,31 +76,31 @@ tr3:
 	goto st8;
 tr4:
 #line 10 "format-base.hpp.rl"
-	{ static_cast<T&>(*this).emit_argument(); }
+	{ static_cast<T&>(*this).emit_argument(std::forward<Args>(args)...); }
 	goto st8;
 tr7:
 #line 11 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_argument(p); }
 #line 10 "format-base.hpp.rl"
-	{ static_cast<T&>(*this).emit_argument(); }
+	{ static_cast<T&>(*this).emit_argument(std::forward<Args>(args)...); }
 	goto st8;
 tr34:
 #line 13 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_precision(p); }
 #line 10 "format-base.hpp.rl"
-	{ static_cast<T&>(*this).emit_argument(); }
+	{ static_cast<T&>(*this).emit_argument(std::forward<Args>(args)...); }
 	goto st8;
 tr39:
 #line 12 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_width(p); }
 #line 10 "format-base.hpp.rl"
-	{ static_cast<T&>(*this).emit_argument(); }
+	{ static_cast<T&>(*this).emit_argument(std::forward<Args>(args)...); }
 	goto st8;
 st8:
 	if ( ++p == pe )
 		goto _test_eof8;
 case 8:
-#line 103 "format-base.hpp"
+#line 104 "format-base.hpp"
 	if ( (*p) == 123 )
 		goto st1;
 	goto tr40;
@@ -111,7 +112,7 @@ st9:
 	if ( ++p == pe )
 		goto _test_eof9;
 case 9:
-#line 115 "format-base.hpp"
+#line 116 "format-base.hpp"
 	if ( (*p) == 123 )
 		goto tr43;
 	goto st9;
@@ -123,7 +124,7 @@ st1:
 	if ( ++p == pe )
 		goto _test_eof1;
 case 1:
-#line 127 "format-base.hpp"
+#line 128 "format-base.hpp"
 	switch( (*p) ) {
 		case 58: goto st3;
 		case 123: goto tr3;
@@ -136,7 +137,7 @@ tr0:
 #line 14 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).argument_error(); }
 	goto st0;
-#line 140 "format-base.hpp"
+#line 141 "format-base.hpp"
 st0:
 cs = 0;
 	goto _out;
@@ -148,7 +149,7 @@ st2:
 	if ( ++p == pe )
 		goto _test_eof2;
 case 2:
-#line 152 "format-base.hpp"
+#line 153 "format-base.hpp"
 	switch( (*p) ) {
 		case 58: goto tr6;
 		case 125: goto tr7;
@@ -244,7 +245,7 @@ st3:
 	if ( ++p == pe )
 		goto _test_eof3;
 case 3:
-#line 248 "format-base.hpp"
+#line 249 "format-base.hpp"
 	switch( (*p) ) {
 		case 32: goto tr8;
 		case 35: goto tr9;
@@ -283,7 +284,7 @@ st4:
 	if ( ++p == pe )
 		goto _test_eof4;
 case 4:
-#line 287 "format-base.hpp"
+#line 288 "format-base.hpp"
 	if ( 48 <= (*p) && (*p) <= 57 )
 		goto tr30;
 	goto tr0;
@@ -295,7 +296,7 @@ st5:
 	if ( ++p == pe )
 		goto _test_eof5;
 case 5:
-#line 299 "format-base.hpp"
+#line 300 "format-base.hpp"
 	switch( (*p) ) {
 		case 46: goto tr31;
 		case 119: goto tr33;
@@ -316,7 +317,7 @@ st6:
 	if ( ++p == pe )
 		goto _test_eof6;
 case 6:
-#line 320 "format-base.hpp"
+#line 321 "format-base.hpp"
 	if ( 48 <= (*p) && (*p) <= 57 )
 		goto tr35;
 	goto tr0;
@@ -328,7 +329,7 @@ st7:
 	if ( ++p == pe )
 		goto _test_eof7;
 case 7:
-#line 332 "format-base.hpp"
+#line 333 "format-base.hpp"
 	switch( (*p) ) {
 		case 46: goto tr36;
 		case 119: goto tr38;
@@ -366,18 +367,18 @@ case 7:
 #line 14 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).argument_error(); }
 	break;
-#line 370 "format-base.hpp"
+#line 371 "format-base.hpp"
 	}
 	}
 
 	_out: {}
 	}
 
-#line 135 "format-base.hpp.rl"
+#line 136 "format-base.hpp.rl"
       if (p == eof || cs == 
-#line 379 "format-base.hpp"
+#line 380 "format-base.hpp"
 0
-#line 135 "format-base.hpp.rl"
+#line 136 "format-base.hpp.rl"
 )
         break;
     }

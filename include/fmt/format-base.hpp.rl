@@ -7,7 +7,7 @@
   action Mark             { static_cast<T&>(*this).mark(fpc); }
   action EmitText         { static_cast<T&>(*this).emit_text(fpc); }
   action EmitOpenBracket  { static_cast<T&>(*this).emit_open_bracket(); }
-  action EmitArgument     { static_cast<T&>(*this).emit_argument(); }
+  action EmitArgument     { static_cast<T&>(*this).emit_argument(std::forward<Args>(args)...); }
   action CaptureArgument  { static_cast<T&>(*this).capture_argument(fpc); }
   action CaptureWidth     { static_cast<T&>(*this).capture_width(fpc); }
   action CapturePrecision { static_cast<T&>(*this).capture_precision(fpc); }
@@ -129,7 +129,8 @@ public:
         pe(fmt + fmt_size),
         eof(pe) {}
 
-  void operator()() {
+  template<typename ...Args>
+  void operator()(Args&& ... args) {
     for(;;) {
       %% write exec;
       if (p == eof || cs == %%{ write error; }%%)
