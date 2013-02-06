@@ -50,20 +50,18 @@ std::ostream& operator<<(std::ostream& os, const Flag& f) {
 
 class FormatDebugger : public FormatBase<FormatDebugger> {
 public:
-  FormatDebugger(const char *f) {
-    p = f;
-    pe = p + strlen(f);
-    eof = pe;
-  }
+  struct Data : public FormatBase::Data {
+    const char *mark = 0;
+  };
 
-  void mark(const char *fpc) {
+  void mark(Data &d, const char *fpc) {
     std::cout << "Mark\n";
-    mark_ = fpc;
+    d.mark = fpc;
   }
 
-  int capture_integer(const char *fpc) {
+  int capture_integer(Data &d, const char *fpc) {
     int i = 0;
-    const char *xp = mark_;
+    const char *xp = d.mark;
 
     while (xp != fpc) {
       i = i * 10 + (*xp - '0');
@@ -72,49 +70,45 @@ public:
     return i;
   }
 
-  void capture_precision(const char *fpc) {
-    int i = capture_integer(fpc);
+  void capture_precision(Data &d, const char *fpc) {
+    int i = capture_integer(d, fpc);
     std::cout << "  precision: " << i << std::endl;
   }
 
-  void capture_width(const char *fpc) {
-    int i = capture_integer(fpc);
+  void capture_width(Data &d, const char *fpc) {
+    int i = capture_integer(d, fpc);
     std::cout << "  width: " << i << std::endl;
   }
 
-  void capture_argument(const char *fpc) {
-    int i = capture_integer(fpc);
+  void capture_argument(Data &d, const char *fpc) {
+    int i = capture_integer(d, fpc);
     std::cout << "  argument: " << i << std::endl;
   }
 
-  void set_flag(Flag v) {
+  void set_flag(Data &d, Flag v) {
     std::cout << "  flag: " << v << std::endl;
   }
 
-  void emit_text(const char *end) {
-    std::string s(mark_, end - mark_);
+  void emit_text(Data &d, const char *end) {
+    std::string s(d.mark, end - d.mark);
     std::cout << "Text(" << s << ")\n";
   }
 
-  void emit_open_bracket() {
+  void emit_open_bracket(Data &d) {
     std::cout << "OpenBracket\n";
   }
 
-  void emit_argument() {
+  void emit_argument(Data &d) {
     std::cout << "Argument\n";
   }
 
-  void argument_error() {
+  void argument_error(Data &d) {
     std::cout << "Argument Error\n";
   }
 
-  void end_error() {
+  void end_error(Data &d) {
     std::cout << "End Error\n";
   }
-
-protected:
-  const char *mark_;
-  std::string fstr_;
 };
 
 }
@@ -123,8 +117,8 @@ int main(int argc, char *argv[]) {
   if (argc <= 1) {
     std::cout << "Usage: fmt-debugger [FORMAT_STRING]" << std::endl;
   } else {
-    fmt::FormatDebugger f(argv[1]);
-    f();
+    fmt::FormatDebugger f;
+    f(argv[1], strlen(argv[1]));
   }
 
   return 0;

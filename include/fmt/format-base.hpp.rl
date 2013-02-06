@@ -4,46 +4,46 @@
 %%{
   machine format;
 
-  action Mark             { static_cast<T&>(*this).mark(fpc); }
-  action EmitText         { static_cast<T&>(*this).emit_text(fpc); }
-  action EmitOpenBracket  { static_cast<T&>(*this).emit_open_bracket(); }
-  action EmitArgument     { static_cast<T&>(*this).emit_argument(std::forward<Args>(args)...); }
-  action CaptureArgument  { static_cast<T&>(*this).capture_argument(fpc); }
-  action CaptureWidth     { static_cast<T&>(*this).capture_width(fpc); }
-  action CapturePrecision { static_cast<T&>(*this).capture_precision(fpc); }
-  action ArgumentError    { static_cast<T&>(*this).argument_error(); }
-  action EndError         { static_cast<T&>(*this).end_error(); }
+  action Mark             { static_cast<T&>(*this).mark(data, fpc); }
+  action EmitText         { static_cast<T&>(*this).emit_text(data, fpc); }
+  action EmitOpenBracket  { static_cast<T&>(*this).emit_open_bracket(data); }
+  action EmitArgument     { static_cast<T&>(*this).emit_argument(data, std::forward<Args>(args)...); }
+  action CaptureArgument  { static_cast<T&>(*this).capture_argument(data, fpc); }
+  action CaptureWidth     { static_cast<T&>(*this).capture_width(data, fpc); }
+  action CapturePrecision { static_cast<T&>(*this).capture_precision(data, fpc); }
+  action ArgumentError    { static_cast<T&>(*this).argument_error(data); }
+  action EndError         { static_cast<T&>(*this).end_error(data); }
 
   align = (
-      '>' @{ static_cast<T&>(*this).set_flag(Flag::AlignRight); }
-    | '<' @{ static_cast<T&>(*this).set_flag(Flag::AlignLeft); }
-    | '^' @{ static_cast<T&>(*this).set_flag(Flag::AlignCentered); }
-    | '=' @{ static_cast<T&>(*this).set_flag(Flag::AlignNumeric); }
+      '>' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignRight); }
+    | '<' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignLeft); }
+    | '^' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignCentered); }
+    | '=' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignNumeric); }
   );
 
   sign = (
-      '+' @{ static_cast<T&>(*this).set_flag(Flag::SignPlus); }
-    | ' ' @{ static_cast<T&>(*this).set_flag(Flag::SignSpace); }
+      '+' @{ static_cast<T&>(*this).set_flag(data, Flag::SignPlus); }
+    | ' ' @{ static_cast<T&>(*this).set_flag(data, Flag::SignSpace); }
   );
 
   type = (
-      'c' @{ static_cast<T&>(*this).set_flag(Flag::Char); }
-    | 'e' @{ static_cast<T&>(*this).set_flag(Flag::Exponent); }
-    | 'f' @{ static_cast<T&>(*this).set_flag(Flag::Fixed); }
-    | 'n' @{ static_cast<T&>(*this).set_flag(Flag::Localized); }
-    | 'o' @{ static_cast<T&>(*this).set_flag(Flag::Octal); }
-    | 'x' @{ static_cast<T&>(*this).set_flag(Flag::Hex); }
-    | 'E' @{ static_cast<T&>(*this).set_flag(Flag::UpperExponent); }
-    | 'F' @{ static_cast<T&>(*this).set_flag(Flag::Fixed); }
-    | 'G' @{ static_cast<T&>(*this).set_flag(Flag::LargeExponent); }
-    | 'X' @{ static_cast<T&>(*this).set_flag(Flag::UpperHex); }
-    | '%' @{ static_cast<T&>(*this).set_flag(Flag::Percentage); }
+      'c' @{ static_cast<T&>(*this).set_flag(data, Flag::Char); }
+    | 'e' @{ static_cast<T&>(*this).set_flag(data, Flag::Exponent); }
+    | 'f' @{ static_cast<T&>(*this).set_flag(data, Flag::Fixed); }
+    | 'n' @{ static_cast<T&>(*this).set_flag(data, Flag::Localized); }
+    | 'o' @{ static_cast<T&>(*this).set_flag(data, Flag::Octal); }
+    | 'x' @{ static_cast<T&>(*this).set_flag(data, Flag::Hex); }
+    | 'E' @{ static_cast<T&>(*this).set_flag(data, Flag::UpperExponent); }
+    | 'F' @{ static_cast<T&>(*this).set_flag(data, Flag::Fixed); }
+    | 'G' @{ static_cast<T&>(*this).set_flag(data, Flag::LargeExponent); }
+    | 'X' @{ static_cast<T&>(*this).set_flag(data, Flag::UpperHex); }
+    | '%' @{ static_cast<T&>(*this).set_flag(data, Flag::Percentage); }
   );
 
   misc = (
-      '#' @{ static_cast<T&>(*this).set_flag(Flag::Prefixed); }
-    | '0' @{ static_cast<T&>(*this).set_flag(Flag::ZeroPadding); }
-    | ',' @{ static_cast<T&>(*this).set_flag(Flag::CommaSeparator); }
+      '#' @{ static_cast<T&>(*this).set_flag(data, Flag::Prefixed); }
+    | '0' @{ static_cast<T&>(*this).set_flag(data, Flag::ZeroPadding); }
+    | ',' @{ static_cast<T&>(*this).set_flag(data, Flag::CommaSeparator); }
   );
 
   flags = (
@@ -121,28 +121,32 @@ enum Flag : uint32_t {
 template<typename T>
 class FormatBase {
 public:
-  FormatBase() {}
-
-  FormatBase(const char *fmt,
-             std::size_t fmt_size)
-      : p(fmt),
-        pe(fmt + fmt_size),
-        eof(pe) {}
+  struct Data {
+    int cs = 0;
+    const char *p;
+    const char *pe;
+    const char *eof;
+  };
 
   template<typename ...Args>
-  void operator()(Args&& ... args) {
+  void operator()(const char *fmt, size_t fmt_size, Args&& ... args) {
+    typename T::Data data;
+
+    data.p = fmt;
+    data.pe = fmt + fmt_size;
+    data.eof = data.pe;
+
+    %% variable cs  data.cs;
+    %% variable p   data.p;
+    %% variable pe  data.pe;
+    %% variable eof data.eof;
+
     for(;;) {
       %% write exec;
-      if (p == eof || cs == %%{ write error; }%%)
+      if (data.p == data.eof || data.cs == %%{ write error; }%%)
         break;
     }
   }
-
-protected:
-  int cs;
-  const char *p;
-  const char *pe;
-  const char *eof;
 };
 
 

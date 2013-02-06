@@ -93,12 +93,10 @@ protected:
 
 class FormatMock : public fmt::FormatBase<FormatMock> {
 public:
-  FormatMock(const char *s) {
-    p = s;
-    pe = p + strlen(s);
-    eof = pe;
-  }
-
+  struct Data : public FormatBase::Data {
+    const char *mark;
+    Arg options;
+  };
 
   void expect(std::string s) {
     expects_.emplace_back(s);
@@ -126,13 +124,13 @@ public:
     }
   }
 
-  void mark(const char *fpc) {
-    mark_ = fpc;
+  void mark(Data &d, const char *fpc) {
+    d.mark = fpc;
   }
 
-  int capture_integer(const char *fpc) {
+  int capture_integer(Data &d, const char *fpc) {
     int i = 0;
-    const char *xp = mark_;
+    const char *xp = d.mark;
 
     while (xp != fpc) {
       i = i * 10 + (*xp - '0');
@@ -141,45 +139,47 @@ public:
     return i;
   }
 
-  void capture_precision(const char *fpc) {
-    int i = capture_integer(fpc);
-    options_.set_precision(i);
+  void capture_precision(Data &d, const char *fpc) {
+    int i = capture_integer(d, fpc);
+    d.options.set_precision(i);
   }
-  void capture_width(const char *fpc) {
-    int i = capture_integer(fpc);
-    options_.set_width(i);
+  void capture_width(Data &d, const char *fpc) {
+    int i = capture_integer(d, fpc);
+    d.options.set_width(i);
   }
-  void capture_argument(const char *fpc) {
-    int i = capture_integer(fpc);
-    options_.set_index(i);
-  }
-
-  void set_flag(fmt::Flag v) {
-    options_.set_flag(v);
+  void capture_argument(Data &d, const char *fpc) {
+    int i = capture_integer(d, fpc);
+    d.options.set_index(i);
   }
 
-  void emit_text(const char *end) {
-    std::string s(mark_, end - mark_);
+  void set_flag(Data &d, fmt::Flag v) {
+    d.options.set_flag(v);
+  }
+
+  void emit_text(Data &d, const char *end) {
+    std::string s(d.mark, end - d.mark);
     check(s);
   }
 
-  void emit_open_bracket() {
+  void emit_open_bracket(Data &d) {
     check(std::string("{"));
   }
 
-  void emit_argument() {
-    check(options_);
-    options_.reset();
+  void emit_argument(Data &d) {
+    check(d.options);
+    d.options.reset();
   }
 
-  void argument_error() {
+  void argument_error(Data &d) {
   }
-  void end_error() {
+  void end_error(Data &d) {
   }
 
-protected:
-  const char *mark_;
-  Arg options_;
+  void operator()(const char *c) {
+    FormatBase::operator()(c, strlen(c));
+  }
+
+private:
   std::vector<Expectation> expects_;
   uint32_t expects_i_ = 0;
 };
@@ -187,77 +187,77 @@ protected:
 }
 
 TEST(Format, basic_text) {
-  FormatMock f("Test");
+  FormatMock f;
   f.expect("Test");
-  f();
+  f("Test");
 }
 
 TEST(Format, open_bracket) {
-  FormatMock f("Test {{ Bracket");
+  FormatMock f;
   f.expect("Test ");
   f.expect("{");
   f.expect(" Bracket");
-  f();
+  f("Test {{ Bracket");
 }
 
 TEST(Format, basic_arg) {
-  FormatMock f("{}");
+  FormatMock f;
   f.expect(-1,0,0,0);
-  f();
+  f("{}");
 }
 
 TEST(Format, arg) {
-  FormatMock f("Test {} Arg");
+  FormatMock f;
   f.expect("Test ");
   f.expect(-1,0,0,0);
   f.expect(" Arg");
-  f();
+  f("Test {} Arg");
 }
 
 TEST(Format, indexed_arg) {
-  FormatMock f("{1}");
+  FormatMock f;
   f.expect(1,0,0,0);
-  f();
+  f("{1}");
 }
 
 TEST(Format, multi_indexed_arg) {
-  FormatMock f("{1} multiple {2} args {0}");
+  FormatMock f;
   f.expect(1,0,0,0);
   f.expect(" multiple ");
   f.expect(2,0,0,0);
   f.expect(" args ");
   f.expect(0,0,0,0);
-  f();
+  f("{1} multiple {2} args {0}");
 }
 
 TEST(Format, concat_args) {
-  FormatMock f("{}{}{}");
+  FormatMock f;
   f.expect(-1,0,0,0);
   f.expect(-1,0,0,0);
   f.expect(-1,0,0,0);
-  f();
+  f("{}{}{}");
 }
 
 TEST(Format, args_width) {
-  FormatMock f("{:w10}");
+  FormatMock f;
   f.expect(-1, 10, 0, 0);
-  f();
+  f("{:w10}");
 }
 
 TEST(Format, args_precision) {
-  FormatMock f("{:.20}");
+  FormatMock f;
   f.expect(-1, 0, 20, 0);
-  f();
+  f("{:.20}");
 }
 
 TEST(Format, args_flags) {
-  FormatMock f("{:^+x}");
+  FormatMock f;
   f.expect(-1, 0, 0, fmt::Flag::AlignCentered | fmt::Flag::SignPlus | fmt::Flag::Hex);
-  f();
+  f("{:^+x}");
 }
 
 TEST(Format, args_indexed_width_precision_flags) {
-  FormatMock f("{3:%0w44.20}");
+  FormatMock f;
   f.expect(3, 44, 20, fmt::Flag::Percentage | fmt::Flag::ZeroPadding);
-  f();
+  f("{3:%0w44.20}");
 }

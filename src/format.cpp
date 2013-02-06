@@ -94,10 +94,10 @@ int main(int argc, char *argv[]) {
   }
   std::cout << std::endl;
 
-  Format format(fmt_str);
+  Format format;
 
   try {
-    format(args, args_size);
+    format(fmt_str.c_str(), fmt_str.size(), args, args_size);
     std::cout << std::endl;
     return 0;
   } catch (std::exception &e) {

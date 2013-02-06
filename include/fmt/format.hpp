@@ -98,15 +98,19 @@ public:
 
 class Format : public FormatBase<Format> {
 public:
-  Format(std::string &f) : FormatBase(f.c_str(), f.size()) {}
+  struct Data : public FormatBase::Data {
+    const char *mark = 0;
+    ArgOptions arg_options;
+    int32_t arg_index = 0;
+  };
 
-  void mark(const char *fpc) {
-    mark_ = fpc;
+  void mark(Data &d, const char *fpc) {
+    d.mark = fpc;
   }
 
-  int capture_integer(const char *fpc) {
+  int capture_integer(Data &d, const char *fpc) {
     int i = 0;
-    const char *xp = mark_;
+    const char *xp = d.mark;
 
     while (xp != fpc) {
       i = i * 10 + (*xp - '0');
@@ -115,46 +119,46 @@ public:
     return i;
   }
 
-  void capture_precision(const char *fpc) {
-    arg_options_.precision = capture_integer(fpc);
+  void capture_precision(Data &d, const char *fpc) {
+    d.arg_options.precision = capture_integer(d, fpc);
   }
 
-  void capture_width(const char *fpc) {
-    arg_options_.width = capture_integer(fpc);
+  void capture_width(Data &d, const char *fpc) {
+    d.arg_options.width = capture_integer(d, fpc);
   }
 
-  void capture_argument(const char *fpc) {
-    arg_options_.index = capture_integer(fpc) + 1;
+  void capture_argument(Data &d, const char *fpc) {
+    d.arg_options.index = capture_integer(d, fpc) + 1;
   }
 
-  void set_flag(fmt::Flag v) {
-    arg_options_.flags |= v;
+  void set_flag(Data &d, fmt::Flag v) {
+    d.arg_options.flags |= v;
   }
 
-  void emit_text(const char *end) {
-    std::cout << std::string(mark_, end - mark_);
+  void emit_text(Data &d, const char *end) {
+    std::cout << std::string(d.mark, end - d.mark);
   }
 
-  void emit_open_bracket() {
+  void emit_open_bracket(Data &d) {
     std::cout << std::string("{");
   }
 
-  void emit_argument(const Arg *args, size_t args_size) {
+  void emit_argument(Data &d, const Arg *args, size_t args_size) {
     uint32_t index;
 
-    if (arg_options_.index == 0) {
-      if (arg_index_ == -1) {
+    if (d.arg_options.index == 0) {
+      if (d.arg_index == -1) {
         throw InvalidFormatString("Invalid indexing behaviour");
       }
-      index = arg_index_++;
+      index = d.arg_index++;
     } else {
-      if (arg_index_ > 0) {
+      if (d.arg_index > 0) {
         throw InvalidFormatString("Invalid indexing behaviour");
       }
-      if (arg_index_ == 0) {
-        arg_index_ = -1;
+      if (d.arg_index == 0) {
+        d.arg_index = -1;
       }
-      index = arg_options_.index - 1;
+      index = d.arg_options.index - 1;
     }
 
     if (index >= args_size) {
@@ -189,21 +193,16 @@ public:
       break;
     }
 
-    arg_options_.reset();
+    d.arg_options.reset();
   }
 
-  void argument_error() {
+  void argument_error(Data &d) {
     throw InvalidFormatString("argument_error()");
   }
 
-  void end_error() {
+  void end_error(Data &d) {
     throw InvalidFormatString("end_error()");
   }
-
-private:
-  const char *mark_;
-  ArgOptions arg_options_;
-  int32_t arg_index_ = 0;
 };
 
 };
