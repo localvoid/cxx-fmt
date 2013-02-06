@@ -148,7 +148,7 @@ public:
       if (arg_index_ != 0) {
         throw InvalidFormatString("Invalid indexing behaviour");
       }
-      index = arg_options_.index;
+      index = arg_options_.index - 1;
     }
 
     if (index >= args_size) {
