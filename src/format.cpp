@@ -1,3 +1,4 @@
+#include <climits>
 #include <string.h>
 #include <stdlib.h>
 #include <string>
@@ -25,11 +26,21 @@ int main(int argc, char *argv[]) {
     if (c_len > 5) {
       Arg *a = &args[i - 2];
       if (!strncmp(c, "u32:", 4)) {
+#if __WORD_SIZE == 32
         a->type = Arg::Type::U32;
         a->value.u32 = strtoul(c+4, nullptr, 10);
+#else
+        a->type = Arg::Type::U64;
+        a->value.u64 = strtoul(c+4, nullptr, 10);
+#endif
       } else if (!strncmp(c, "i32:", 4)) {
+#if __WORD_SIZE == 32
         a->type = Arg::Type::I32;
         a->value.i32 = strtol(c+4, nullptr, 10);
+#else
+        a->type = Arg::Type::I64;
+        a->value.i64 = strtol(c+4, nullptr, 10);
+#endif
       } else if (!strncmp(c, "u64:", 4)) {
         a->type = Arg::Type::U64;
         a->value.u64 = strtoull(c+4, nullptr, 10);
@@ -69,12 +80,14 @@ int main(int argc, char *argv[]) {
     case Arg::Type::S:
       std::cout << std::string(a->value.s.begin, a->value.s.size);
       break;
+#if __WORD_SIZE == 32
     case Arg::Type::U32:
       std::cout << a->value.u32;
       break;
     case Arg::Type::I32:
       std::cout << a->value.i32;
       break;
+#endif
     case Arg::Type::U64:
       std::cout << a->value.u64;
       break;

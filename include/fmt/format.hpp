@@ -1,6 +1,7 @@
 #ifndef _FMT_FORMAT_HPP_
 #define _FMT_FORMAT_HPP_
 
+#include <climits>
 #include <stdexcept>
 #include <string>
 #include <fmt/format-base.hpp>
@@ -20,8 +21,10 @@ struct StringRef {
 
 struct Arg {
   union {
+#if __WORDSIZE == 32
     uint32_t  u32;
     int32_t   i32;
+#endif
     uint64_t  u64;
     int64_t   i64;
     float     f;
@@ -32,8 +35,10 @@ struct Arg {
 
   enum class Type {
     S,
+#if __WORDSIZE == 32
     U32,
     I32,
+#endif
     U64,
     I64,
     F,
@@ -42,6 +47,7 @@ struct Arg {
   } type;
 };
 
+#if __WORDSIZE == 32
 Arg to_arg(uint8_t o) {
   return { .value = { .u32 = o }, .type = Arg::Type::U32 };
 }
@@ -60,6 +66,26 @@ Arg to_arg(uint32_t o) {
 Arg to_arg(int32_t o) {
   return { .value = { .i32 = o }, .type = Arg::Type::I32 };
 }
+#else
+Arg to_arg(uint8_t o) {
+  return { .value = { .u64 = o }, .type = Arg::Type::U64 };
+}
+Arg to_arg(int8_t o) {
+  return { .value = { .i64 = o }, .type = Arg::Type::I64 };
+}
+Arg to_arg(uint16_t o) {
+  return { .value = { .u64 = o }, .type = Arg::Type::U64 };
+}
+Arg to_arg(int16_t o) {
+  return { .value = { .i64 = o }, .type = Arg::Type::I64 };
+}
+Arg to_arg(uint32_t o) {
+  return { .value = { .u64 = o }, .type = Arg::Type::U64 };
+}
+Arg to_arg(int32_t o) {
+  return { .value = { .i64 = o }, .type = Arg::Type::I64 };
+}
+#endif
 Arg to_arg(uint64_t o) {
   return { .value = { .u64 = o }, .type = Arg::Type::U64 };
 }
@@ -158,6 +184,7 @@ public:
     case Arg::Type::S:
       std::cout << std::string(a->value.s.begin, a->value.s.size);
       break;
+#if __WORDSIZE == 32
     case Arg::Type::U32:
       if (d.arg_options.flags & (Flag::Hex | Flag::UpperHex))
         size = itoa_hex(a->value.u32, d.arg_options.width, d.arg_options.flags, tmp_buf);
@@ -172,6 +199,7 @@ public:
         size = itoa(a->value.i32, d.arg_options.width, d.arg_options.flags, tmp_buf);
       std::cout << std::string(tmp_buf, size);
       break;
+#endif
     case Arg::Type::U64:
       if (d.arg_options.flags & (Flag::Hex | Flag::UpperHex))
         size = itoa_hex(a->value.u64, d.arg_options.width, d.arg_options.flags, tmp_buf);
