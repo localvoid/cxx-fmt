@@ -7,24 +7,16 @@
 namespace fmt {
 
 std::ostream& operator<<(std::ostream& os, const Flag& f) {
-  if (f & Flag::AlignLeft)
-    os << "align left";
-  else if (f & Flag::AlignRight)
+  if (f & Flag::AlignRight)
     os << "align right";
   else if (f & Flag::AlignCentered)
     os << "align centered";
-  else if (f & Flag::AlignNumeric)
-    os << "align numeric";
   else if (f & Flag::SignPlus)
     os << "sign plus";
   else if (f & Flag::SignSpace)
     os << "sign space";
-  else if (f & Flag::Localized)
-    os << "localized";
   else if (f & Flag::Char)
     os << "char";
-  else if (f & Flag::Octal)
-    os << "octal";
   else if (f & Flag::Hex)
     os << "hex";
   else if (f & Flag::UpperHex)
@@ -41,8 +33,6 @@ std::ostream& operator<<(std::ostream& os, const Flag& f) {
     os << "percentage";
   else if (f & Flag::Prefixed)
     os << "prefixed";
-  else if (f & Flag::ZeroPadding)
-    os << "zero padding";
   else if (f & Flag::CommaSeparator)
     os << "comma separator";
   return os;

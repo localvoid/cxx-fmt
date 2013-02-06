@@ -242,6 +242,6 @@ TEST(Format, args_flags) {
 
 TEST(Format, args_indexed_width_precision_flags) {
   FormatMock f;
-  f.expect(3, 44, 20, fmt::Flag::Percentage | fmt::Flag::ZeroPadding);
-  f("{3:%0w44.20}");
+  f.expect(3, 44, 20, fmt::Flag::Percentage | fmt::Flag::CommaSeparator);
+  f("{3:%,w44.20}");
 }

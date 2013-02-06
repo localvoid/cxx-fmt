@@ -16,9 +16,7 @@
 
   align = (
       '>' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignRight); }
-    | '<' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignLeft); }
     | '^' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignCentered); }
-    | '=' @{ static_cast<T&>(*this).set_flag(data, Flag::AlignNumeric); }
   );
 
   sign = (
@@ -30,11 +28,8 @@
       'c' @{ static_cast<T&>(*this).set_flag(data, Flag::Char); }
     | 'e' @{ static_cast<T&>(*this).set_flag(data, Flag::Exponent); }
     | 'f' @{ static_cast<T&>(*this).set_flag(data, Flag::Fixed); }
-    | 'n' @{ static_cast<T&>(*this).set_flag(data, Flag::Localized); }
-    | 'o' @{ static_cast<T&>(*this).set_flag(data, Flag::Octal); }
     | 'x' @{ static_cast<T&>(*this).set_flag(data, Flag::Hex); }
     | 'E' @{ static_cast<T&>(*this).set_flag(data, Flag::UpperExponent); }
-    | 'F' @{ static_cast<T&>(*this).set_flag(data, Flag::Fixed); }
     | 'G' @{ static_cast<T&>(*this).set_flag(data, Flag::LargeExponent); }
     | 'X' @{ static_cast<T&>(*this).set_flag(data, Flag::UpperHex); }
     | '%' @{ static_cast<T&>(*this).set_flag(data, Flag::Percentage); }
@@ -42,7 +37,6 @@
 
   misc = (
       '#' @{ static_cast<T&>(*this).set_flag(data, Flag::Prefixed); }
-    | '0' @{ static_cast<T&>(*this).set_flag(data, Flag::ZeroPadding); }
     | ',' @{ static_cast<T&>(*this).set_flag(data, Flag::CommaSeparator); }
   );
 
@@ -93,25 +87,20 @@
 namespace fmt {
 
 enum Flag : uint32_t {
-  AlignLeft      = 1,
-  AlignRight     = 1 << 1,
-  AlignCentered  = 1 << 2,
-  AlignNumeric   = 1 << 3,
-  SignPlus       = 1 << 4,
-  SignSpace      = 1 << 6,
-  Localized      = 1 << 7,
-  Char           = 1 << 9,
-  Octal          = 1 << 10,
-  Hex            = 1 << 11,
-  UpperHex       = 1 << 12,
-  Exponent       = 1 << 13,
-  UpperExponent  = 1 << 14,
-  Fixed          = 1 << 15,
-  LargeExponent  = 1 << 16,
-  Percentage     = 1 << 17,
-  Prefixed       = 1 << 18,
-  ZeroPadding    = 1 << 19,
-  CommaSeparator = 1 << 20,
+  AlignRight     = 1,
+  AlignCentered  = 1 << 1,
+  SignPlus       = 1 << 2,
+  SignSpace      = 1 << 3,
+  Char           = 1 << 4,
+  Hex            = 1 << 5,
+  UpperHex       = 1 << 6,
+  Exponent       = 1 << 7,
+  UpperExponent  = 1 << 8,
+  Fixed          = 1 << 9,
+  LargeExponent  = 1 << 10,
+  Percentage     = 1 << 11,
+  Prefixed       = 1 << 12,
+  CommaSeparator = 1 << 13,
 };
 
 
