@@ -78,6 +78,14 @@ inline uint32_t digits10(uint32_t n) {
   return t - (n < powers_of_10_u32[t]) + 1;
 }
 
+inline uint32_t digits16(uint64_t n) {
+  return t = ((bsrq(n | 1) + 1) / 4) + 1;
+}
+
+inline uint32_t digits16(uint32_t n) {
+  return t = ((bsrl(n | 1) + 1) / 4) + 1;
+}
+
 }
 
 uint32_t fmt::itoa(int64_t n, uint32_t width, uint32_t flags, char *b) {
