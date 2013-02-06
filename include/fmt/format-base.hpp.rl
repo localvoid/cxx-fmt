@@ -77,7 +77,7 @@
 
   text = [^{]+ >Mark %EmitText;
   open_bracket = '{' '{' @EmitOpenBracket;
-  argument = '{' field? $^ArgumentError '}' @EmitArgument;
+  argument = '{' field? <^ArgumentError '}' @EmitArgument;
 
   main := (
       text
