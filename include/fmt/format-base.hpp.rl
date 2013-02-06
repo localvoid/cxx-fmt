@@ -51,15 +51,11 @@
   width = 'w' digit+ >Mark %CaptureWidth;
   precision = '.' digit+ >Mark %CapturePrecision;
 
-  compound_options = (
-      width
-    | precision
-  );
-
   options = (
     ':'
     flags*
-    compound_options*
+    width?
+    precision?
   );
 
   argid = digit+ >Mark %CaptureArgument;
@@ -72,7 +68,7 @@
 
   text = [^{]+ >Mark %EmitText;
   open_bracket = '{' '{' @EmitOpenBracket;
-  argument = '{' field? <^ArgumentError '}' @EmitArgument;
+  argument = '{' field? %!ArgumentError '}' @EmitArgument;
 
   main := (
       text

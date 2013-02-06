@@ -4,7 +4,7 @@
 #define _FMT_FORMAT_BASE_HPP_
 
 
-#line 83 "format-base.hpp.rl"
+#line 79 "format-base.hpp.rl"
 
 
 
@@ -41,7 +41,7 @@ static const int format_error = 0;
 static const int format_en_main = 8;
 
 
-#line 111 "format-base.hpp.rl"
+#line 107 "format-base.hpp.rl"
 
 
 template<typename T>
@@ -81,13 +81,13 @@ public:
     data.mark = nullptr;
 
     
-#line 150 "format-base.hpp.rl"
+#line 146 "format-base.hpp.rl"
     
-#line 151 "format-base.hpp.rl"
+#line 147 "format-base.hpp.rl"
     
-#line 152 "format-base.hpp.rl"
+#line 148 "format-base.hpp.rl"
     
-#line 153 "format-base.hpp.rl"
+#line 149 "format-base.hpp.rl"
 
     for(;;) {
       
@@ -105,19 +105,19 @@ tr4:
 #line 10 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).emit_argument(data, std::forward<Args>(args)...); }
 	goto st8;
-tr8:
+tr7:
 #line 11 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_argument(data, (   data.p)); }
 #line 10 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).emit_argument(data, std::forward<Args>(args)...); }
 	goto st8;
-tr30:
+tr28:
 #line 13 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_precision(data, (   data.p)); }
 #line 10 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).emit_argument(data, std::forward<Args>(args)...); }
 	goto st8;
-tr35:
+tr32:
 #line 12 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_width(data, (   data.p)); }
 #line 10 "format-base.hpp.rl"
@@ -130,8 +130,8 @@ case 8:
 #line 131 "format-base.hpp"
 	if ( (*(   data.p)) == 123 )
 		goto st1;
-	goto tr36;
-tr36:
+	goto tr33;
+tr33:
 #line 7 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).mark(data, (   data.p)); }
 	goto st9;
@@ -141,9 +141,9 @@ st9:
 case 9:
 #line 143 "format-base.hpp"
 	if ( (*(   data.p)) == 123 )
-		goto tr39;
+		goto tr36;
 	goto st9;
-tr39:
+tr36:
 #line 8 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).emit_text(data, (   data.p)); }
 	goto st1;
@@ -158,9 +158,9 @@ case 1:
 		case 125: goto tr4;
 	}
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
-		goto tr0;
-	goto st0;
-tr5:
+		goto tr1;
+	goto tr0;
+tr0:
 #line 14 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).argument_error(data); }
 	goto st0;
@@ -168,7 +168,7 @@ tr5:
 st0:
 (  data.cs) = 0;
 	goto _out;
-tr0:
+tr1:
 #line 7 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).mark(data, (   data.p)); }
 	goto st2;
@@ -178,73 +178,73 @@ st2:
 case 2:
 #line 180 "format-base.hpp"
 	switch( (*(   data.p)) ) {
-		case 58: goto tr7;
-		case 125: goto tr8;
+		case 58: goto tr6;
+		case 125: goto tr7;
 	}
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
 		goto st2;
-	goto tr5;
-tr7:
+	goto tr0;
+tr6:
 #line 11 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_argument(data, (   data.p)); }
 	goto st3;
-tr9:
+tr8:
 #line 24 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::SignSpace); }
 	goto st3;
-tr10:
+tr9:
 #line 39 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Prefixed); }
 	goto st3;
-tr11:
+tr10:
 #line 35 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Percentage); }
 	goto st3;
-tr12:
+tr11:
 #line 23 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::SignPlus); }
 	goto st3;
-tr13:
+tr12:
 #line 41 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::CommaSeparator); }
 	goto st3;
-tr15:
+tr14:
 #line 40 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::ZeroPadding); }
 	goto st3;
-tr16:
+tr15:
 #line 18 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::AlignLeft); }
 	goto st3;
-tr17:
+tr16:
 #line 19 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::AlignRight); }
 	goto st3;
-tr18:
+tr17:
 #line 32 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::UpperExponent); }
 	goto st3;
-tr19:
+tr18:
 #line 33 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::LargeExponent); }
 	goto st3;
-tr20:
+tr19:
 #line 34 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::UpperHex); }
 	goto st3;
-tr21:
+tr20:
 #line 28 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Char); }
 	goto st3;
-tr22:
+tr21:
 #line 29 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Exponent); }
 	goto st3;
-tr23:
+tr22:
 #line 30 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Fixed); }
 	goto st3;
-tr25:
+tr24:
 #line 31 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Hex); }
 	goto st3;
@@ -254,31 +254,27 @@ st3:
 case 3:
 #line 256 "format-base.hpp"
 	switch( (*(   data.p)) ) {
-		case 32: goto tr9;
-		case 35: goto tr10;
-		case 37: goto tr11;
-		case 43: goto tr12;
-		case 44: goto tr13;
+		case 32: goto tr8;
+		case 35: goto tr9;
+		case 37: goto tr10;
+		case 43: goto tr11;
+		case 44: goto tr12;
 		case 46: goto st4;
-		case 48: goto tr15;
-		case 60: goto tr16;
-		case 62: goto tr17;
-		case 69: goto tr18;
-		case 71: goto tr19;
-		case 88: goto tr20;
-		case 99: goto tr21;
-		case 101: goto tr22;
-		case 102: goto tr23;
+		case 48: goto tr14;
+		case 60: goto tr15;
+		case 62: goto tr16;
+		case 69: goto tr17;
+		case 71: goto tr18;
+		case 88: goto tr19;
+		case 99: goto tr20;
+		case 101: goto tr21;
+		case 102: goto tr22;
 		case 119: goto st6;
-		case 120: goto tr25;
+		case 120: goto tr24;
 		case 125: goto tr4;
 	}
-	goto tr5;
-tr27:
-#line 13 "format-base.hpp.rl"
-	{ static_cast<T&>(*this).capture_precision(data, (   data.p)); }
-	goto st4;
-tr32:
+	goto tr0;
+tr30:
 #line 12 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).capture_width(data, (   data.p)); }
 	goto st4;
@@ -286,11 +282,11 @@ st4:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof4;
 case 4:
-#line 290 "format-base.hpp"
+#line 286 "format-base.hpp"
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
-		goto tr26;
-	goto tr5;
-tr26:
+		goto tr25;
+	goto st0;
+tr25:
 #line 7 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).mark(data, (   data.p)); }
 	goto st5;
@@ -298,32 +294,20 @@ st5:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof5;
 case 5:
-#line 302 "format-base.hpp"
-	switch( (*(   data.p)) ) {
-		case 46: goto tr27;
-		case 119: goto tr29;
-		case 125: goto tr30;
-	}
+#line 298 "format-base.hpp"
+	if ( (*(   data.p)) == 125 )
+		goto tr28;
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
 		goto st5;
-	goto tr5;
-tr29:
-#line 13 "format-base.hpp.rl"
-	{ static_cast<T&>(*this).capture_precision(data, (   data.p)); }
-	goto st6;
-tr34:
-#line 12 "format-base.hpp.rl"
-	{ static_cast<T&>(*this).capture_width(data, (   data.p)); }
-	goto st6;
+	goto tr0;
 st6:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof6;
 case 6:
-#line 323 "format-base.hpp"
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
-		goto tr31;
-	goto tr5;
-tr31:
+		goto tr29;
+	goto st0;
+tr29:
 #line 7 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).mark(data, (   data.p)); }
 	goto st7;
@@ -331,15 +315,14 @@ st7:
 	if ( ++(   data.p) == (  data.pe) )
 		goto _test_eof7;
 case 7:
-#line 335 "format-base.hpp"
+#line 319 "format-base.hpp"
 	switch( (*(   data.p)) ) {
-		case 46: goto tr32;
-		case 119: goto tr34;
-		case 125: goto tr35;
+		case 46: goto tr30;
+		case 125: goto tr32;
 	}
 	if ( 48 <= (*(   data.p)) && (*(   data.p)) <= 57 )
 		goto st7;
-	goto tr5;
+	goto tr0;
 	}
 	_test_eof8: (  data.cs) = 8; goto _test_eof; 
 	_test_eof9: (  data.cs) = 9; goto _test_eof; 
@@ -359,27 +342,26 @@ case 7:
 #line 8 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).emit_text(data, (   data.p)); }
 	break;
+	case 1: 
 	case 2: 
 	case 3: 
-	case 4: 
 	case 5: 
-	case 6: 
 	case 7: 
 #line 14 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).argument_error(data); }
 	break;
-#line 372 "format-base.hpp"
+#line 354 "format-base.hpp"
 	}
 	}
 
 	_out: {}
 	}
 
-#line 156 "format-base.hpp.rl"
+#line 152 "format-base.hpp.rl"
       if (data.p == data.eof || data.cs == 
-#line 381 "format-base.hpp"
+#line 363 "format-base.hpp"
 0
-#line 156 "format-base.hpp.rl"
+#line 152 "format-base.hpp.rl"
 )
         break;
     }
