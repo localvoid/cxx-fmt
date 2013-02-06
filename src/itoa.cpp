@@ -7,6 +7,10 @@
 
 namespace {
 
+const char hex_lower_digits[] = "0123456789abcdef";
+const char hex_upper_digits[] = "0123456789ABCDEF";
+
+
 const uint64_t powers_of_10_u64[] = {
   0,
   10,
@@ -79,11 +83,11 @@ inline uint32_t digits10(uint32_t n) {
 }
 
 inline uint32_t digits16(uint64_t n) {
-  return ((bsrq(n | 1) + 1) / 4) + 1;
+  return (bsrq(n | 1) + 1) / 4;
 }
 
 inline uint32_t digits16(uint32_t n) {
-  return ((bsrl(n | 1) + 1) / 4) + 1;
+  return (bsrl(n | 1) + 1) / 4;
 }
 
 }
@@ -284,6 +288,66 @@ uint32_t fmt::itoa(uint32_t v, uint32_t width, uint32_t flags, char *b) {
 
   if (flags & Flag::SignPlus)       *c = '+';
   else if (flags & Flag::SignSpace) *c = ' ';
+
+  return size;
+}
+
+uint32_t fmt::itoa_hex(uint32_t v, uint32_t width, uint32_t flags, char *b) {
+  char *c;
+  uint32_t size = digits16(v);
+
+  if (width > size) {
+    if (flags & Flag::AlignLeft) {
+      c = &b[size - 1];
+      std::fill(b + size, b + width, ' ');
+    } else {
+      c = &b[width-1];
+
+      const char f = (flags & Flag::ZeroPadding) ? '0' : ' ';
+      std::fill(b, b + width - size + 1, f);
+    }
+    size = width;
+  } else {
+    c = &b[size-1];
+  }
+
+  while (v >= 16) {
+    auto const r = v % 16;
+    v /= 16;
+    *c-- = hex_lower_digits[r];
+  }
+
+  if (flags & Flag::ZeroPadding) c = b;
+
+  return size;
+}
+
+uint32_t fmt::itoa_hex(uint64_t v, uint32_t width, uint32_t flags, char *b) {
+  char *c;
+  uint32_t size = digits16(v);
+
+  if (width > size) {
+    if (flags & Flag::AlignLeft) {
+      c = &b[size - 1];
+      std::fill(b + size, b + width, ' ');
+    } else {
+      c = &b[width-1];
+
+      const char f = (flags & Flag::ZeroPadding) ? '0' : ' ';
+      std::fill(b, b + width - size + 1, f);
+    }
+    size = width;
+  } else {
+    c = &b[size-1];
+  }
+
+  while (v >= 16) {
+    auto const r = v % 16;
+    v /= 16;
+    *c-- = hex_lower_digits[r];
+  }
+
+  if (flags & Flag::ZeroPadding) c = b;
 
   return size;
 }

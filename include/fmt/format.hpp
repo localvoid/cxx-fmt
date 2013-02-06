@@ -183,7 +183,8 @@ public:
       std::cout << std::string(tmp_buf, size);
       break;
     case Arg::Type::P:
-      std::cout << a->value.p;
+      size = itoa_hex(reinterpret_cast<uint64_t>(a->value.p), d.arg_options.width, d.arg_options.flags, tmp_buf);
+      std::cout << std::string(tmp_buf, size);
       break;
     }
 
