@@ -11,8 +11,6 @@ std::ostream& operator<<(std::ostream& os, const Flag& f) {
     os << "align left";
   else if (f & Flag::AlignRight)
     os << "align right";
-  else if (f & Flag::AlignCentered)
-    os << "align centered";
   else if (f & Flag::SignPlus)
     os << "sign plus";
   else if (f & Flag::SignSpace)

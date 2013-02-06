@@ -236,8 +236,8 @@ TEST(Format, args_precision) {
 
 TEST(Format, args_flags) {
   FormatMock f;
-  f.expect(-1, 0, 0, fmt::Flag::AlignCentered | fmt::Flag::SignPlus | fmt::Flag::Hex);
-  f("{:^+x}");
+  f.expect(-1, 0, 0, fmt::Flag::AlignLeft | fmt::Flag::SignPlus | fmt::Flag::Hex);
+  f("{:<+x}");
 }
 
 TEST(Format, args_indexed_width_precision_flags) {

@@ -16,18 +16,18 @@ namespace fmt {
 enum Flag : uint32_t {
   AlignLeft      = 1,
   AlignRight     = 1 << 1,
-  AlignCentered  = 1 << 2,
-  SignPlus       = 1 << 3,
-  SignSpace      = 1 << 4,
-  Char           = 1 << 5,
-  Hex            = 1 << 6,
-  UpperHex       = 1 << 7,
-  Exponent       = 1 << 8,
-  UpperExponent  = 1 << 9,
-  Fixed          = 1 << 10,
-  LargeExponent  = 1 << 11,
-  Percentage     = 1 << 12,
-  Prefixed       = 1 << 13,
+  SignPlus       = 1 << 2,
+  SignSpace      = 1 << 3,
+  Char           = 1 << 4,
+  Hex            = 1 << 5,
+  UpperHex       = 1 << 6,
+  Exponent       = 1 << 7,
+  UpperExponent  = 1 << 8,
+  Fixed          = 1 << 9,
+  LargeExponent  = 1 << 10,
+  Percentage     = 1 << 11,
+  Prefixed       = 1 << 12,
+  ZeroPadding    = 1 << 13,
   CommaSeparator = 1 << 14
 };
 
@@ -189,19 +189,19 @@ tr7:
 	{ static_cast<T&>(*this).capture_argument(data, (   data.p)); }
 	goto st3;
 tr9:
-#line 25 "format-base.hpp.rl"
+#line 24 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::SignSpace); }
 	goto st3;
 tr10:
-#line 40 "format-base.hpp.rl"
+#line 39 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Prefixed); }
 	goto st3;
 tr11:
-#line 36 "format-base.hpp.rl"
+#line 35 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Percentage); }
 	goto st3;
 tr12:
-#line 24 "format-base.hpp.rl"
+#line 23 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::SignPlus); }
 	goto st3;
 tr13:
@@ -209,43 +209,43 @@ tr13:
 	{ static_cast<T&>(*this).set_flag(data, Flag::CommaSeparator); }
 	goto st3;
 tr15:
+#line 40 "format-base.hpp.rl"
+	{ static_cast<T&>(*this).set_flag(data, Flag::ZeroPadding); }
+	goto st3;
+tr16:
 #line 18 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::AlignLeft); }
 	goto st3;
-tr16:
+tr17:
 #line 19 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::AlignRight); }
 	goto st3;
-tr17:
-#line 33 "format-base.hpp.rl"
+tr18:
+#line 32 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::UpperExponent); }
 	goto st3;
-tr18:
-#line 34 "format-base.hpp.rl"
+tr19:
+#line 33 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::LargeExponent); }
 	goto st3;
-tr19:
-#line 35 "format-base.hpp.rl"
+tr20:
+#line 34 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::UpperHex); }
 	goto st3;
-tr20:
-#line 20 "format-base.hpp.rl"
-	{ static_cast<T&>(*this).set_flag(data, Flag::AlignCentered); }
-	goto st3;
 tr21:
-#line 29 "format-base.hpp.rl"
+#line 28 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Char); }
 	goto st3;
 tr22:
-#line 30 "format-base.hpp.rl"
+#line 29 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Exponent); }
 	goto st3;
 tr23:
-#line 31 "format-base.hpp.rl"
+#line 30 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Fixed); }
 	goto st3;
 tr25:
-#line 32 "format-base.hpp.rl"
+#line 31 "format-base.hpp.rl"
 	{ static_cast<T&>(*this).set_flag(data, Flag::Hex); }
 	goto st3;
 st3:
@@ -260,12 +260,12 @@ case 3:
 		case 43: goto tr12;
 		case 44: goto tr13;
 		case 46: goto st4;
-		case 60: goto tr15;
-		case 62: goto tr16;
-		case 69: goto tr17;
-		case 71: goto tr18;
-		case 88: goto tr19;
-		case 94: goto tr20;
+		case 48: goto tr15;
+		case 60: goto tr16;
+		case 62: goto tr17;
+		case 69: goto tr18;
+		case 71: goto tr19;
+		case 88: goto tr20;
 		case 99: goto tr21;
 		case 101: goto tr22;
 		case 102: goto tr23;

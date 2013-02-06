@@ -32,8 +32,6 @@ Alignment
 
 - > - right
 - < - left
-- ^ - centered
-- = - numeric
 
 Sign
 ^^^^
