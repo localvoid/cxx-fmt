@@ -15,6 +15,12 @@ parser.add_argument('--enable-printf', action='store_true',
                     help='generate printf format string')
 parser.add_argument('--disable-width', action='store_true',
                     help='disable generating width option')
+parser.add_argument('--disable-int-type', action='store_true',
+                    help='disable generating integers')
+parser.add_argument('--disable-string-type', action='store_true',
+                    help='disable generating strings')
+parser.add_argument('--disable-text-type', action='store_true',
+                    help='disable generating texts')
 
 args = parser.parse_args()
 
@@ -107,8 +113,13 @@ class Text(object):
         return None
 
 
-#TYPE_CHOICE = [Int] * 10 + [Float] * 4 + [String] * 10 + [Pointer] * 4 + [Text] * 20
-TYPE_CHOICE = [Int] * 20 + [String] * 10 + [Text] * 20
+TYPE_CHOICE = []
+if not args.disable_int_type:
+    TYPE_CHOICE += [Int] * 20
+if not args.disable_string_type:
+    TYPE_CHOICE += [String] * 10
+if not args.disable_text_type:
+    TYPE_CHOICE += [Text] * 20
 
 for it in range(args.count):
     result = []
