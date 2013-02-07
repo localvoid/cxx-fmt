@@ -131,10 +131,10 @@ for it in range(args.count):
         result.append(t())
         i += 1
 
-    print(''.join([t.to_format() for t in result]))
-
     if args.enable_printf:
         print(''.join([t.to_printf() for t in result]))
+    else:
+        print(''.join([t.to_format() for t in result]))
 
     arguments = []
     for t in result:
