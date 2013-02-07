@@ -4,4 +4,4 @@ function(build_test NAME)
   add_test(test_${NAME} test_${NAME})
 endfunction()
 
-build_test(format)
+build_test(state-machine)

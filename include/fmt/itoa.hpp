@@ -1,7 +1,7 @@
 #ifndef _FMT_ITOA_HPP_
 #define _FMT_ITOA_HPP_
 
-#include <fmt/format-base.hpp>
+#include <fmt/flag.hpp>
 
 namespace fmt {
 

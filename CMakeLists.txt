@@ -19,10 +19,21 @@ set(CMAKE_EXE_LINKER_FLAGS "-Wl,--as-needed -Wl,--hash-style=gnu")
 
 include_directories(include ${GTEST_INCLUDE_DIRS})
 
+add_library(fmtlib STATIC
+  src/format.cpp
+  src/itoa.cpp
+  src/dtoa.cpp
+  )
+
 add_executable(fmt-debugger src/debugger.cpp)
-add_executable(fmt src/format.cpp src/itoa.cpp src/dtoa.cpp)
-add_executable(itoa src/itoa.cpp tests/itoa.cpp)
-add_executable(benchmark-itoa src/itoa.cpp benchmarks/itoa.cpp)
+add_executable(fmt src/format-util.cpp)
+target_link_libraries(fmt fmtlib)
+add_executable(itoa tests/itoa.cpp)
+target_link_libraries(itoa fmtlib)
+add_executable(test-fmt tests/fmt.cpp)
+target_link_libraries(test-fmt fmtlib)
+add_executable(benchmark-itoa benchmarks/itoa.cpp)
+target_link_libraries(benchmark-itoa fmtlib)
 
 
 enable_testing()
