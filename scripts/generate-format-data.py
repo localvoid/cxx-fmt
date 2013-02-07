@@ -79,23 +79,6 @@ class String(object):
         return 'str:' + self.value
 
 
-class Pointer(object):
-    def __init__(self):
-        self.value = random.randint(0, 2**32)
-        self.width = random.randint(0, 32)
-        self.align = random.choice(ALIGNS)
-        self.zero_padding = random.choice(ZERO_PADDING) if self.align == None else False
-
-    def to_printf(self):
-        return '%x'
-
-    def to_format(self):
-        return '{}'
-
-    def serialize(self):
-        return 'ptr:' + str(self.value)
-
-
 class Text(object):
     def __init__(self):
         self.value = str(random.randint(0, 2**32))
@@ -111,7 +94,7 @@ class Text(object):
 
 
 #TYPE_CHOICE = [Int] * 10 + [Float] * 4 + [String] * 10 + [Pointer] * 4 + [Text] * 20
-TYPE_CHOICE = [Int] * 20 + [String] * 10 + [Pointer] * 4 + [Text] * 20
+TYPE_CHOICE = [Int] * 20 + [String] * 10 + [Text] * 20
 
 for it in range(int(sys.argv[1])):
     result = []
