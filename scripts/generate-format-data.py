@@ -20,18 +20,6 @@ class Int(object):
         self.align = random.choice(ALIGNS)
         self.zero_padding = random.choice(ZERO_PADDING) if self.align == None else False
 
-    def to_printf(self):
-        out = '%'
-        if self.sign:
-            out += self.sign
-        if self.zero_padding:
-            out += '0'
-        if self.width > 0:
-            out += '*'
-        out += 'lld'
-
-        return '%i'
-
     def to_format(self):
         out = '{'
         if self.sign or self.align or self.width or self.zero_padding:
@@ -55,9 +43,6 @@ class Float(object):
     def __init__(self):
         self.value = random.uniform(MIN, MAX)
 
-    def to_printf(self):
-        return '%f'
-
     def to_format(self):
         return '{}'
 
@@ -69,9 +54,6 @@ class String(object):
     def __init__(self):
         self.value = str(random.randint(0, 2**32))
 
-    def to_printf(self):
-        return '%s'
-
     def to_format(self):
         return '{}'
 
@@ -82,9 +64,6 @@ class String(object):
 class Text(object):
     def __init__(self):
         self.value = str(random.randint(0, 2**32))
-
-    def to_printf(self):
-        return self.value
 
     def to_format(self):
         return self.value
@@ -102,7 +81,6 @@ for it in range(int(sys.argv[1])):
         t = random.choice(TYPE_CHOICE)
         result.append(t())
 
-    printf_fmt = ''.join([t.to_printf() for t in result])
     format_fmt = ''.join([t.to_format() for t in result])
     arguments = []
     for t in result:
@@ -110,7 +88,7 @@ for it in range(int(sys.argv[1])):
         if r:
             arguments.append(r)
 
-    print(printf_fmt)
     print(format_fmt)
     print(len(arguments))
-    print('\n'.join(arguments))
+    if arguments:
+        print('\n'.join(arguments))
