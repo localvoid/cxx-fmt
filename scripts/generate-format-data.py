@@ -2,8 +2,23 @@
 
 import sys
 import random
+import argparse
 
-random.seed(10)
+parser = argparse.ArgumentParser(description='Script for generating data to test/benchmark fmt library')
+parser.add_argument('--count', type=int, default=1000,
+                    help='amount of inputs to generate [default: 1000]')
+parser.add_argument('--args', type=int, default=4,
+                    help='amount of args that should be generated for each input [default: 4]')
+parser.add_argument('--seed', type=int, default=0,
+                    help='seed for random number generator [default: 0]')
+parser.add_argument('--enable-printf', action='store_true',
+                    help='generate printf format string')
+parser.add_argument('--disable-width', action='store_true',
+                    help='disable generating width option')
+
+args = parser.parse_args()
+
+random.seed(args.seed)
 
 MIN=-(2**31)-1
 MAX=2**31
@@ -20,6 +35,17 @@ class Int(object):
         self.align = random.choice(ALIGNS)
         self.zero_padding = random.choice(ZERO_PADDING) if self.align == None else False
 
+    def to_printf(self):
+        out = '%'
+        if self.sign:
+            out += self.sign
+        if self.zero_padding:
+            out += '0'
+        if not args.disable_width and self.width > 0:
+            out += '*'
+        out += 'lli'
+        return out
+
     def to_format(self):
         out = '{'
         if self.sign or self.align or self.width or self.zero_padding:
@@ -29,7 +55,7 @@ class Int(object):
             out += self.sign
         if self.zero_padding:
             out += '0'
-        if self.width > 0:
+        if not args.disable_width and self.width > 0:
             out += 'w' + str(self.width)
         out += '}'
 
@@ -43,6 +69,9 @@ class Float(object):
     def __init__(self):
         self.value = random.uniform(MIN, MAX)
 
+    def to_printf(self):
+        return '%f'
+
     def to_format(self):
         return '{}'
 
@@ -53,6 +82,9 @@ class Float(object):
 class String(object):
     def __init__(self):
         self.value = str(random.randint(0, 2**32))
+
+    def to_printf(self):
+        return '%s'
 
     def to_format(self):
         return '{}'
@@ -65,6 +97,9 @@ class Text(object):
     def __init__(self):
         self.value = str(random.randint(0, 2**32))
 
+    def to_printf(self):
+        return self.value
+
     def to_format(self):
         return self.value
 
@@ -75,20 +110,27 @@ class Text(object):
 #TYPE_CHOICE = [Int] * 10 + [Float] * 4 + [String] * 10 + [Pointer] * 4 + [Text] * 20
 TYPE_CHOICE = [Int] * 20 + [String] * 10 + [Text] * 20
 
-for it in range(int(sys.argv[1])):
+for it in range(args.count):
     result = []
-    for i in range(random.randint(3, 8)):
+    i = 0
+    while i < args.args:
         t = random.choice(TYPE_CHOICE)
+        if t is Text:
+            i -= 1
         result.append(t())
+        i += 1
 
-    format_fmt = ''.join([t.to_format() for t in result])
+    print(''.join([t.to_format() for t in result]))
+
+    if args.enable_printf:
+        print(''.join([t.to_printf() for t in result]))
+
     arguments = []
     for t in result:
         r = t.serialize()
         if r:
             arguments.append(r)
 
-    print(format_fmt)
     print(len(arguments))
     if arguments:
         print('\n'.join(arguments))
