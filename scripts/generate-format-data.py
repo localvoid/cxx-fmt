@@ -111,7 +111,7 @@ class Text(object):
 
 
 #TYPE_CHOICE = [Int] * 10 + [Float] * 4 + [String] * 10 + [Pointer] * 4 + [Text] * 20
-TYPE_CHOICE = [Int] * 10 + [String] * 10 + [Pointer] * 4 + [Text] * 20
+TYPE_CHOICE = [Int] * 20 + [String] * 10 + [Pointer] * 4 + [Text] * 20
 
 for it in range(int(sys.argv[1])):
     result = []
