@@ -33,7 +33,7 @@ class Int(object):
             out += 'w' + str(self.width)
         out += '}'
 
-        return '{}'
+        return out
 
     def serialize(self):
         return 'i64:' + str(self.value)
