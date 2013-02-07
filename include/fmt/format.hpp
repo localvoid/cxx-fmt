@@ -99,9 +99,16 @@ inline Arg to_arg(double o) {
 }
 
 template<std::size_t size>
-Arg to_arg(const char (&str)[size]) {
+inline Arg to_arg(const char (&str)[size]) {
   Arg a;
   a.value.s = { static_cast<const char*>(str), size };
+  a.type = Arg::Type::S;
+  return std::move(a);
+}
+
+inline Arg to_arg(const char *str, uint32_t size) {
+  Arg a;
+  a.value.s = { str, size };
   a.type = Arg::Type::S;
   return std::move(a);
 }
