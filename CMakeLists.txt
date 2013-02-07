@@ -32,9 +32,7 @@ add_executable(itoa tests/itoa.cpp)
 target_link_libraries(itoa fmtlib)
 add_executable(test-fmt tests/fmt.cpp)
 target_link_libraries(test-fmt fmtlib)
-add_executable(benchmark-itoa benchmarks/itoa.cpp)
-target_link_libraries(benchmark-itoa fmtlib)
-
 
 enable_testing()
 add_subdirectory(tests)
+add_subdirectory(benchmarks)
