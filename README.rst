@@ -76,7 +76,9 @@ Example
 
 ::
 
-  fmt::format("format integer: {:X>w6}", 0xff);
+  char buf[128];
+  uint32_t size = fmt::format(buf, "format integer: {:X>w6}", 0xff);
+  std::cout << std::string(buf, size) << std::endl;
 
 should output: ``"format integer:   0xFF"``
 
