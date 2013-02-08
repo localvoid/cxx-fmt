@@ -90,4 +90,4 @@ Roadmap
  - Width flag for string values
  - Percentage flag
  - Unit Tests coverage
-
+ - API for IO stream
