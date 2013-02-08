@@ -51,7 +51,7 @@ Flag Description
 ==== =================================================================
 >    Align right
 <    Align left
-+    A sign (+ or -) should always be placed before a number.
+\+   A sign (+ or -) should always be placed before a number.
 ' '  A space should be placed before a positive number.
 c    Convert to char
 e    Exponent
