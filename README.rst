@@ -2,10 +2,24 @@
  C++ string formatting library
 ===============================
 
-The library is currently work in progress.
+The library is in alpha state.
 
-Format syntax
--------------
+And currently doesn't support fast conversion of floating point
+values, it is now using sprintf for this purposes.
+
+Synopsis
+--------
+
+::
+
+  #include <fmt/format.hpp>
+
+  template<typename ...Args>
+  uint32_t fmt::format(const char *out, const char *format, Args&& ... args);
+
+
+Description
+-----------
 
 Format strings contain "placeholder fields" surrounded by curly braces
 `{}`. Anything that is not contained in braces is considered literal
@@ -22,49 +36,40 @@ Argument specification
 
 ::
 
-  argument_index? (':' flags* options*)?
+  arg       = '{' arg_index? (':' flags* options*)? '}'
+  arg_index = [0-9]+
+  flags     = [cefoxEX%]
+  options   = (width | precision)
+  width     = 'w' [0-9]+
+  precision = '.' [0-9]+
 
 Flags
 +++++
 
-Alignment
-^^^^^^^^^
-
-- > - right
-- < - left
-
-Sign
-^^^^
-
-- +   - plus
-- ' ' - space
-
-Type Conversion
-^^^^^^^^^^^^^^^
-
-- c - char
-- e - exponent
-- f - fixed
-- n - localized
-- o - octal
-- x - hex
-- E - upper exponent
-- G - large exponent
-- X - upper hex
-- % - percentage
-
-Misc
-^^^^
-
-- # - prefixed
-- 0 - zero padding
-- , - comma separator
+==== =================================================================
+Flag Description
+==== =================================================================
+>    Align right
+<    Align left
++    A sign (+ or -) should always be placed before a number.
+' '  A space should be placed before a positive number.
+c    Convert to char
+e    Exponent
+f    Fixed
+o    Octal
+x    Hexadecimal
+E    Upper Exponent
+G    Large Exponent
+X    Upper Hexadecimal
+%    Percentage
+#    Prefixed
+0    Zero padding
+,    Comma separator
+==== =================================================================
 
 Options
 +++++++
 
-- w[0-9]+ - width
-- .[0-9]+ - precision
 
 Example
 -------
@@ -73,4 +78,14 @@ Example
 
   fmt::format("format integer: {:X>w6}", 0xff);
 
-should output: "format integer:   0xFF"
+should output: ``"format integer:   0xFF"``
+
+
+Roadmap
+-------
+
+ - Native floating point conversion
+ - Width flag for string values
+ - Percentage flag
+ - Unit Tests coverage
+
