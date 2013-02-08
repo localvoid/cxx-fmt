@@ -38,7 +38,7 @@ Argument specification
 
   arg       = '{' arg_index? (':' flags* options*)? '}'
   arg_index = [0-9]+
-  flags     = [cefoxEX%]
+  flags     = [<>+ cefoxEGX%#0,]
   options   = (width | precision)
   width     = 'w' [0-9]+
   precision = '.' [0-9]+
